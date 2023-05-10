@@ -1,6 +1,9 @@
 # action.yml
 name: 'AI powerd Automatic PR Body Generation'
 description: 'Automatically generates a PR body based on the PR content using openai'
+branding:
+  icon: 'git-pull-request'
+  color: 'blue'
 inputs:
   OPENAI_API_KEY:  # id of input
     required: true
