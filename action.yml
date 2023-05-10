@@ -18,10 +18,10 @@ runs:
       env:
         GH_TOKEN: ${{ github.token }}
       shell: bash
-    - run: pip install -r requirements.txt
+    - run: pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
     - id: generate_body
-      run: python main.py pr_diff.txt --output-file pr_body.txt --pr-file pr_data.txt
+      run: python ${{ github.action_path }}/main.py pr_diff.txt --output-file pr_body.txt --pr-file pr_data.txt
       shell: bash
       env: 
         OPENAI_API_KEY: ${{inputs.OPENAI_API_KEY}}
