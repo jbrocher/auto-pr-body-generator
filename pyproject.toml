@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "auto-pr-body-generator"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Jean-Baptiste Rocher <jeanb.rocher@gmail.com>"]
 readme = "README.md"
