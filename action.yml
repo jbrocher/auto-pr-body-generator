@@ -1,0 +1,28 @@
+# action.yml
+name: 'AI powerd Automatic PR Body Generation'
+description: 'Automatically generates a PR body based on the PR content using openai'
+inputs:
+  OPENAI_API_KEY:  # id of input
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: gh pr view ${{ github.head_ref }} --json body >> pr_data.txt
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+    - run: gh pr diff ${{ github.head_ref }} >> pr_diff.txt
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+    - run: pip install -r requirements.txt
+      shell: bash
+    - id: generate_body
+      run: python main.py pr_diff.txt --output-file pr_body.txt --pr-file pr_data.txt
+      shell: bash
+      env: 
+        OPENAI_API_KEY: ${{inputs.OPENAI_API_KEY}}
+    - run: gh pr edit ${{ github.head_ref }} -F pr_body.txt
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      shell: bash

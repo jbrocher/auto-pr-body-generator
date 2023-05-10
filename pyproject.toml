@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "auto-pr-body-generator"
+version = "0.1.0"
+description = ""
+authors = ["Jean-Baptiste Rocher <jeanb.rocher@gmail.com>"]
+readme = "README.md"
+packages = [{include = "ai_auto_pr_body"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+nltk = "^3.8.1"
+openai = "^0.27.6"
+typer = {extras = ["all"], version = "^0.9.0"}
+typing-extensions = "^4.5.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+pytest = "^7.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
