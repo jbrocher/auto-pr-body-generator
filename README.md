@@ -7,6 +7,7 @@ This github action automatically generates the body of a pull request by summari
 Here's an example workflow that uses this action. Detailed explanation are given in the following sections 
 
 ```yaml
+
 name: Auto-PR-Body Generator
 
 on:
@@ -22,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Auto-PR-Body Generator
-        uses: jbrocher/automatic-pr-body-generator@v1.0
+      - name: AI powerd Automatic PR Body Generation
+        uses: jbrocher/auto-pr-body-generator@v0.1.0
         with:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
@@ -46,6 +47,7 @@ In order to edit the PR body, at the minimum you workflow must set the following
 permissions:
   contents: read
   repository-projects: write
+  pull-requests: write
 ```
 
 ### Openapi API key
@@ -54,7 +56,7 @@ This action relies on Openai to generate the body, and as such needs an active o
 
 ```yaml
   - name: Auto-PR-Body Generator
-    uses: jbrocher/auto-pr-body-generator@v1.0
+    uses: jbrocher/auto-pr-body-generator@v0.1.0
     with:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
