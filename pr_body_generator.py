@@ -55,6 +55,9 @@ class PrBodyGenerator:
         logging.info(self.body)
 
     def summarize(self, prompt: Prompt, depth=0) -> Prompt:
+        if prompt.is_valid:
+            return prompt
+
         print(f"Summarzing at depth {depth}...")
         if depth >= self.MAX_SUMMARY_DEPTH:
             print("Max depth, returning prompt as is")
