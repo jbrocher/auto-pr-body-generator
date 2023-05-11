@@ -9,11 +9,10 @@ class PromptGenerator:
     MAX_TOKENS = 2048
     DEFAULT_PROMPT = Prompt(
         """ 
-        Generate a body the Python github pull request of which the diff is provided below. The PR must contain a quick sumarry of the changes, as well as element the reviewer should pay attention to and refactoring suggesions. 
+        Summarize the changes introduced by the diff below. Change to dependencies 
+        locking file should be excluded
 
-        Desired Format: Markdown
-
-        diff:
+        diff to summarize:
         ###
 
 
