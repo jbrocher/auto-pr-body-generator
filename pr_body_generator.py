@@ -10,17 +10,18 @@ class PrBodyGenerator:
         self.prompts = prompts
         self.body = ""
 
-    def _complete_prompt(self, prompt):
+    def _complete_prompt(self, prompt: str) -> str:
         response = self.openai_client.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt,
+            model="text-davinci-003", prompt=prompt, max_tokens=1024
         )
         return response.choices[0].text
 
     def generate_body(self):
         print(f"generating response for {len(self.prompts)} prompts...")
         for i, prompt in enumerate(self.prompts):
+            logging.info(f"Prompt {i}: {prompt}")
             segment_text = self._complete_prompt(prompt)
+            logging.info(f"Reponse {i}: {segment_text}")
             self.body += segment_text
             print(f"Generated prompt for segment {i+1} continuing ...")
         logging.info("Initial body")
@@ -45,7 +46,7 @@ class PrBodyGenerator:
         complete_prompt = summary_prompt.concat(prompt)
         if complete_prompt.is_valid:
             print(f"Finaly summary at depth {depth}, returning prompt")
-            return self._complete_prompt(str(complete_prompt))
+            return Prompt(self._complete_prompt(str(complete_prompt)))
 
         split_prompts = Prompt(self.body).split()
         print(f"Too big to summarize, splitted in {len(split_prompts)} prompts")
