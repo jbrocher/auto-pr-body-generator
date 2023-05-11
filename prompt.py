@@ -3,7 +3,7 @@ from typing import Union
 
 
 class Prompt:
-    MAX_TOKENS = 500
+    MAX_TOKENS = 2048
     MODEL = "text-davinci-003"
 
     def __init__(self, text: str, max_tokens: Union[int, None] = None):
