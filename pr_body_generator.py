@@ -1,18 +1,21 @@
 from prompt import Prompt
+import inspect
 import logging
 
 
 class PrBodyGenerator:
     MAX_SUMMARY_DEPTH = 5
     PR_BODY_PROMPT = Prompt(
-        """ 
-        Generate a body for the github pull request that introduces the changes described below. The PR must contain a quick sumarry of the changes, as well as element the reviewer should pay attention to and refactoring suggesions. 
+        inspect.cleandoc(
+            """ 
+        Generate a body for the github pull request that introduces the changes described below. The PR must contain a quick sumarry of the changes, as well as element the reviewer should pay attention to. 
 
         Desired Format: Markdown
 
         Changes introduces by the PR:
         ###
-    """
+        """
+        )
     )
 
     def __init__(self, openai_client, prompts: list[str]):
@@ -59,13 +62,7 @@ class PrBodyGenerator:
 
         next_depth = depth + 1
 
-        summary_prompt = Prompt(
-            """ Remove duplicate titles and summarize 
-        the following text. The resulting text MUST be shorter
-        
-        ###
-        """
-        )
+        summary_prompt = Prompt(inspect.cleandoc(""" Summarize the following text: """))
         complete_prompt = summary_prompt.concat(prompt)
         if complete_prompt.is_valid:
             print(f"Finaly summary at depth {depth}, returning prompt")
