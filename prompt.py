@@ -31,3 +31,6 @@ class Prompt:
 
     def concat(self, prompt: "Prompt"):
         return Prompt(self.text + " " + prompt.text)
+
+    def __repr__(self):
+        return self.text

@@ -48,6 +48,7 @@ class PromptGenerator:
             words = encoding.encode(text)
             for i in range(0, len(words), max_tokens):
                 partial_diff = encoding.decode(words[i : i + max_tokens])
-                prompt = f"{self.DEFAULT_PROMPT}{partial_diff}"
-                self._prompts.append(prompt)
+                prompt = self.DEFAULT_PROMPT.concat(Prompt(partial_diff))
+                # prompt = f"{self.DEFAULT_PROMPT}{partial_diff}"
+                self._prompts.append(str(prompt))
         return self._prompts
