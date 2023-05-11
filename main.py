@@ -4,7 +4,7 @@ import json
 from typing_extensions import Annotated
 import openai
 
-from prompt_generator import PromptGenerator
+from prompt_generator import DiffAnalyzerService
 import typer
 from pr_body_generator import PrBodyGenerator
 from pr_parser import PrParser
@@ -23,12 +23,10 @@ def main(
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
     print("Parsing diff an generating prompts")
-    prompt_generator = PromptGenerator(diff_file)
-    prompts = prompt_generator.generate_prompts()
+    diff_analyser = DiffAnalyzerService(diff_file, openai)
+    diff_analysis = diff_analyser.analyse_diff()
 
-    print(f"generated {len(prompts)}, staring body generation...")
-
-    pr_body_generator = PrBodyGenerator(openai, prompts)
+    pr_body_generator = PrBodyGenerator(openai, diff_analysis)
     pr_body_generator.generate_body()
 
     with open(pr_file, "r") as f:
