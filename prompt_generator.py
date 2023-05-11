@@ -1,4 +1,5 @@
 import tiktoken
+from prompt import Prompt
 
 
 class PromptsAreNotEmpty(Exception):
@@ -7,10 +8,12 @@ class PromptsAreNotEmpty(Exception):
 
 class PromptGenerator:
     MAX_TOKENS = 500
-    DEFAULT_PROMPT = """ 
+    DEFAULT_PROMPT = Prompt(
+        """ 
         Generate a body in markdown for a Python github pull request. The PR must contain
         a quick sumarry of the changes, as well as element the reviewer should pay attention to. The body must be based off the following git diff:  
     """
+    )
 
     def __init__(self, diff_file: str):
         self.diff_file = diff_file
@@ -32,7 +35,7 @@ class PromptGenerator:
 
         encoding = tiktoken.encoding_for_model("text-davinci-003")
         # The default prompt is included in the max token limit
-        prompt_tokens = len(encoding.encode(self.DEFAULT_PROMPT))
+        prompt_tokens = self.DEFAULT_PROMPT.length
         max_tokens = (
             self.MAX_TOKENS - prompt_tokens
             if max_tokens is None
