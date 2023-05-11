@@ -8,10 +8,10 @@ class Prompt:
 
     def __init__(self, text: str, max_tokens: Union[int, None] = None):
         self.max_tokens = max_tokens if max_tokens is not None else self.MAX_TOKENS
-        encoding = tiktoken.encoding_for_model(self.MODEL)
+        self.encoding = tiktoken.encoding_for_model(self.MODEL)
 
         self._text = text
-        self._encoded_prompt = encoding.encode(text)
+        self._encoded_prompt = self.encoding.encode(text)
 
     @property
     def length(self):
@@ -31,6 +31,18 @@ class Prompt:
 
     def concat(self, prompt: "Prompt"):
         return Prompt(self.text + " " + prompt.text)
+
+    def split(self):
+        if self.is_valid:
+            return [Prompt(self.text, self.max_tokens)]
+
+        prompts = []
+        for i in range(0, len(self._encoded_prompt), self.max_tokens):
+            partial_prompt = Prompt(
+                self.encoding.decode(self._encoded_prompt[i : i + self.max_tokens])
+            )
+            prompts.append(partial_prompt)
+        return prompts
 
     def __repr__(self):
         return self.text

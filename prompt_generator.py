@@ -1,4 +1,3 @@
-import tiktoken
 from prompt import Prompt
 
 
@@ -33,7 +32,6 @@ class PromptGenerator:
             )
         self.clear()
 
-        encoding = tiktoken.encoding_for_model("text-davinci-003")
         # The default prompt is included in the max token limit
         prompt_tokens = self.DEFAULT_PROMPT.length
         max_tokens = (
@@ -43,12 +41,10 @@ class PromptGenerator:
         )
 
         with open(self.diff_file, "r") as f:
-            text = f.read()
-            encoding = tiktoken.encoding_for_model("text-davinci-003")
-            words = encoding.encode(text)
-            for i in range(0, len(words), max_tokens):
-                partial_diff = encoding.decode(words[i : i + max_tokens])
-                prompt = self.DEFAULT_PROMPT.concat(Prompt(partial_diff))
-                # prompt = f"{self.DEFAULT_PROMPT}{partial_diff}"
-                self._prompts.append(str(prompt))
-        return self._prompts
+            diff_text = f.read()
+            diff_prompt = Prompt(diff_text, max_tokens)
+            splitted_diff_prompts = diff_prompt.split()
+            return [
+                str(self.DEFAULT_PROMPT.concat(partial_diff_prompt))
+                for partial_diff_prompt in splitted_diff_prompts
+            ]

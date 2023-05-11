@@ -35,3 +35,10 @@ def test_concat_return_a_new_prompt_with_both_text():
     # Prompts are immutable
     assert test_prompt_1.text == "How are you ?"
     assert test_prompt_2.text == "Fine thank you"
+
+
+def test_split_returns_list_of_new_prompts_that_respect_max_size():
+    test_prompt_1 = Prompt("How are you today ?", 2)
+    assert test_prompt_1.is_valid == False
+    split_prompts = test_prompt_1.split()
+    assert all([prompt.is_valid for prompt in split_prompts])
