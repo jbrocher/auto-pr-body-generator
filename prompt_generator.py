@@ -9,8 +9,14 @@ class PromptGenerator:
     MAX_TOKENS = 500
     DEFAULT_PROMPT = Prompt(
         """ 
-        Generate a body in markdown for a Python github pull request. The PR must contain
-        a quick sumarry of the changes, as well as element the reviewer should pay attention to. The body must be based off the following git diff:  
+        Generate a body the Python github pull request of which the diff is provided below. The PR must contain a quick sumarry of the changes, as well as element the reviewer should pay attention to and refactoring suggesions. 
+
+        Desired Format: Markdown
+
+        diff:
+        ###
+
+
     """
     )
 
