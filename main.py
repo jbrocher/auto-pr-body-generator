@@ -1,4 +1,5 @@
 import os
+
 import json
 from typing_extensions import Annotated
 import openai
@@ -8,6 +9,10 @@ import typer
 from pr_body_generator import PrBodyGenerator
 from pr_parser import PrParser
 from pull_request import PullRequest
+
+import logging
+
+logging.basicConfig(filename="test.log", encoding="utf-8", level=logging.INFO)
 
 
 def main(
