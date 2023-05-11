@@ -1,3 +1,5 @@
 **/*.pyc
 **/*.envrc
 **/*.log
+*.txt
+!requirements.txt
