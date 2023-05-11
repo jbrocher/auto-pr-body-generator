@@ -10,7 +10,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: gh pr view ${{ github.head_ref }} --json body >> pr_data.txt
+    - run: gh pr view ${{ github.head_ref }} --json body,id >> pr_data.txt
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
