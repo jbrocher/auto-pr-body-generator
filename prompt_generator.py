@@ -1,4 +1,5 @@
 from prompt import Prompt
+import inspect
 
 
 class PromptsAreNotEmpty(Exception):
@@ -8,15 +9,15 @@ class PromptsAreNotEmpty(Exception):
 class PromptGenerator:
     MAX_TOKENS = 2048
     DEFAULT_PROMPT = Prompt(
-        """ 
-        Summarize the changes introduced by the diff below. Change to dependencies 
-        locking file should be excluded
+        inspect.cleandoc(
+            """ 
+            Summarize the changes introduced by the git diff below. Changes made to file describing the project dependencies should be ignored. If applicable, suggest a few refactoring target. 
 
-        diff to summarize:
-        ###
+            Expected format: Natural language, limiting code quote to one or two relevant sentences
 
-
-    """
+            diff to summarize:
+            """
+        )
     )
 
     def __init__(self, diff_file: str):
