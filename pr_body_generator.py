@@ -18,10 +18,9 @@ class PrBodyGenerator:
         )
     )
 
-    def __init__(self, openai_client, prompts: list[str]):
+    def __init__(self, openai_client, diff_analysis: str):
         self.openai_client = openai_client
-        self.prompts = prompts
-        self.body = ""
+        self.body = diff_analysis
 
     def _complete_prompt(self, prompt: str) -> str:
         response = self.openai_client.Completion.create(
@@ -30,15 +29,6 @@ class PrBodyGenerator:
         return response.choices[0].text
 
     def generate_body(self):
-        print(f"generating response for {len(self.prompts)} prompts...")
-
-        for i, prompt in enumerate(self.prompts):
-            logging.info(f"Prompt {i}: {prompt}")
-            segment_text = self._complete_prompt(prompt)
-            logging.info(f"Reponse {i}: {segment_text}")
-            self.body += segment_text
-            print(f"Generated prompt for segment {i+1} continuing ...")
-
         logging.info("Initial body")
         logging.info(self.body)
 
