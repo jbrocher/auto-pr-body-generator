@@ -67,6 +67,3 @@ class PrBodyGenerator:
         for split_prompt in split_prompts:
             summary = summary.concat(self.summarize(split_prompt, next_depth))
         return self.summarize(summary, next_depth)
-
-    def dummy_function_that_does_nothtin(self):
-        pass
