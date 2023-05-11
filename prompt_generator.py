@@ -1,7 +1,4 @@
-import nltk
-
-nltk.download("punkt")
-from nltk.tokenize import word_tokenize
+import tiktoken
 
 
 class PromptsAreNotEmpty(Exception):
@@ -33,8 +30,9 @@ class PromptGenerator:
             )
         self.clear()
 
+        encoding = tiktoken.encoding_for_model("text-davinci-003")
         # The default prompt is included in the max token limit
-        prompt_tokens = len(word_tokenize(self.DEFAULT_PROMPT))
+        prompt_tokens = len(encoding.encode(self.DEFAULT_PROMPT))
         max_tokens = (
             self.MAX_TOKENS - prompt_tokens
             if max_tokens is None
@@ -43,9 +41,10 @@ class PromptGenerator:
 
         with open(self.diff_file, "r") as f:
             text = f.read()
-            words = word_tokenize(text)
+            encoding = tiktoken.encoding_for_model("text-davinci-003")
+            words = encoding.encode(text)
             for i in range(0, len(words), max_tokens):
-                partial_diff = " ".join(words[i : i + max_tokens])
+                partial_diff = encoding.decode(words[i : i + max_tokens])
                 prompt = f"{self.DEFAULT_PROMPT}{partial_diff}"
                 self._prompts.append(prompt)
         return self._prompts
