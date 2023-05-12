@@ -16,3 +16,15 @@ That I want to preserve"""
     print(pr.body)
     assert new_auto_body in pr.body
     assert pr.body.startswith(custom_text)
+
+
+def test_update_auto_body_works_if_pr_is_empty():
+    pr_body = ""
+    pr = PullRequest(str(uuid4()), pr_body)
+
+    new_auto_body = "New auto body"
+    print(pr.body)
+    pr.update_auto_body(new_auto_body)
+    print(pr.body)
+    assert new_auto_body in pr.body
+    assert pr.body == f"{PullRequest.DELIMITER}\n\nNew auto body"
