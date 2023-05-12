@@ -12,6 +12,7 @@ class PrBodyGenerator:
              - Summary 
              - List of changes 
              - Refactoring Target
+             Remove duplicate information.
 
             Text to format: 
             """
