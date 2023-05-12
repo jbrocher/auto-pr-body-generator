@@ -4,10 +4,9 @@ import json
 from typing_extensions import Annotated
 import openai
 
-from prompt_generator import DiffAnalyzerService
+from diff_analyzer_service import DiffAnalyzerService
 import typer
 from pr_body_generator import PrBodyGenerator
-from pr_parser import PrParser
 from pull_request import PullRequest
 
 import logging
