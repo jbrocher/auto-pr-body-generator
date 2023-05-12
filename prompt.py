@@ -30,7 +30,8 @@ class Prompt:
         return self.max_tokens - self.length
 
     def concat(self, prompt: "Prompt"):
-        return Prompt(self.text + " " + prompt.text)
+        max_tokens = min(self.max_tokens, prompt.max_tokens)
+        return Prompt(self.text + " " + prompt.text, max_tokens)
 
     def split(self):
         if self.is_valid:
