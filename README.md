@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: AI powerd Automatic PR Body Generation
-        uses: jbrocher/auto-pr-body-generator@v0.1.0
+        uses: jbrocher/auto-pr-body-generator@v0.2.2
         with:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
