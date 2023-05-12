@@ -8,13 +8,13 @@ class PrBodyGenerator:
     PR_BODY_PROMPT = Prompt(
         inspect.cleandoc(
             """ 
-        Generate a body for the github pull request that introduces the changes described below. The PR must contain a quick sumarry of the changes, as well as element the reviewer should pay attention to. 
+            Format the following text into a Pull Request Body with the following sections: 
+             - Summary 
+             - List of changes 
+             - Refactoring Target
 
-        Desired Format: Markdown
-
-        Changes introduces by the PR:
-        ###
-        """
+            Text to format: 
+            """
         )
     )
 
@@ -39,7 +39,7 @@ class PrBodyGenerator:
 
         # Add PR and markdown
         self.body = self._complete_prompt(
-            str(self.PR_BODY_PROMPT.concat(Prompt(self.body)))
+            str(self.PR_BODY_PROMPT.concat(Prompt(self.body).wrap("###")))
         )
         logging.info("=== Final Body ===")
         logging.info(self.body)
