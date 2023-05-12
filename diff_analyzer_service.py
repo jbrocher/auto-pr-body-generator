@@ -11,9 +11,16 @@ class DiffAnalyzerService:
     DEFAULT_PROMPT = Prompt(
         inspect.cleandoc(
             """ 
-            Summarize the changes introduced by the git diff below. Changes made to file describing the project dependencies should be ignored. If applicable, suggest a few refactoring target. 
+            Summarize the changes introduced by the pr whose diff is provided below. Changes made to file describing the project dependencies should be ignored. If applicable, suggest a few refactoring target. 
 
-            Expected format: Natural language, limiting code quote to one or two relevant sentences
+            Desired format: 
+            ###
+            This pull request introduce the following changes:
+
+             - Tiktoken was installed in the project to manage token limits
+             - The class Account was refactored to make use of TikToken
+             - A new class Money was introduced to represent an amount of money in a specific currency
+            ###
 
             diff to summarize:
             """
