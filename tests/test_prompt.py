@@ -37,6 +37,17 @@ def test_concat_return_a_new_prompt_with_both_text():
     assert test_prompt_2.text == "Fine thank you"
 
 
+def test_concat_use_the_min_of_the_max_tokens():
+    test_prompt_1 = Prompt("How are you ?", 1)
+    test_prompt_2 = Prompt("Fine thank you", 100)
+    assert test_prompt_1.is_valid == False
+    assert test_prompt_2.is_valid == True
+
+    test_prompt_3 = test_prompt_1.concat(test_prompt_2)
+    assert test_prompt_3.max_tokens == 1
+    assert test_prompt_3.is_valid == False
+
+
 def test_split_returns_list_of_new_prompts_that_respect_max_size():
     test_prompt_1 = Prompt("How are you today ?", 2)
     assert test_prompt_1.is_valid == False
