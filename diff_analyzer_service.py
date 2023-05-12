@@ -45,7 +45,7 @@ class DiffAnalyzerService:
         for i, prompt in enumerate(splitted_diff_prompts):
             logging.info(f"Prompt {i}: {prompt}")
             segment_text = self._complete_prompt(
-                str(self.DEFAULT_PROMPT.concat(prompt))
+                str(self.DEFAULT_PROMPT.concat(prompt.wrap("###")))
             )
             logging.info(f"Reponse {i}: {segment_text}")
 
