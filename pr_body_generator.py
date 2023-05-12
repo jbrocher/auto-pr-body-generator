@@ -32,10 +32,10 @@ class PrBodyGenerator:
         logging.info("Initial body")
         logging.info(self.body)
 
-        # Sumarize body
-        self.body = str(self.summarize(Prompt(self.body)))
-        logging.info("=== summarized body ===")
-        logging.info(self.body)
+        #         # Sumarize body
+        #         self.body = str(self.summarize(Prompt(self.body)))
+        #         logging.info("=== summarized body ===")
+        #         logging.info(self.body)
 
         # Add PR and markdown
         self.body = self._complete_prompt(
