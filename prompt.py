@@ -31,7 +31,7 @@ class Prompt:
 
     def concat(self, prompt: "Prompt"):
         max_tokens = min(self.max_tokens, prompt.max_tokens)
-        return Prompt(self.text + " " + prompt.text, max_tokens)
+        return Prompt(self.text + "\n" + prompt.text, max_tokens)
 
     def split(self):
         if self.is_valid:
@@ -44,6 +44,11 @@ class Prompt:
             )
             prompts.append(partial_prompt)
         return prompts
+
+    def wrap(self, wrapper: str):
+        prefix = Prompt(wrapper + "\n")
+        suffix = Prompt("\n" + wrapper)
+        return prefix.concat(self).concat(suffix)
 
     def __repr__(self):
         return self.text

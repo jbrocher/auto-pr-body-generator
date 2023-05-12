@@ -30,7 +30,7 @@ def test_concat_return_a_new_prompt_with_both_text():
     test_prompt_1 = Prompt("How are you ?")
     test_prompt_2 = Prompt("Fine thank you")
     test_prompt_3 = test_prompt_1.concat(test_prompt_2)
-    assert test_prompt_3.text == "How are you ? Fine thank you"
+    assert test_prompt_3.text == "How are you ?\nFine thank you"
 
     # Prompts are immutable
     assert test_prompt_1.text == "How are you ?"
@@ -53,3 +53,9 @@ def test_split_returns_list_of_new_prompts_that_respect_max_size():
     assert test_prompt_1.is_valid == False
     split_prompts = test_prompt_1.split()
     assert all([prompt.is_valid for prompt in split_prompts])
+
+
+def test_wrap_return_a_new_prompt_whose_text_is_wrapped():
+    test_prompt_1 = Prompt("How are you today ?", 2)
+    test_prompt_2 = test_prompt_1.wrap("###")
+    assert test_prompt_2.text == "###\n\nHow are you today ?\n\n###"
