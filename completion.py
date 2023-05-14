@@ -45,3 +45,6 @@ class Completion:
 
     def __eq__(self, completion: "Completion"):
         return self._id == completion._id
+
+    def __repr__(self):
+        return f"{self.id} - {self.state} - result: {self.result}"

@@ -24,3 +24,12 @@ def test_completion_calls_open_ai_client(test_prompt):
     mock_openai_completion.Completion.create.assert_called_once_with(
         model="text-davinci-003", prompt=test_prompt.text, max_tokens=1024
     )
+
+
+def test_completion_can_be_printed(test_prompt):
+    test_completion = Completion(test_prompt, MagicMock())
+    test_completion.complete()
+    assert (
+        str(test_completion)
+        == f"{test_completion.id} - {test_completion.state} - result: {test_completion.result}"
+    )
