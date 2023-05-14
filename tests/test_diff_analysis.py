@@ -1,4 +1,6 @@
 import pytest
+from unittest.mock import MagicMock
+from completion import Completion
 from diff_analysis import DiffAnalysis
 
 
@@ -33,7 +35,7 @@ index 0000000..a57410c
 
 
 def test_diff_analysis_constructor_produce_a_valid_analysis(diff):
-    test_diff_analysis = DiffAnalysis(diff=diff)
+    test_diff_analysis = DiffAnalysis(diff=diff, openai_client=MagicMock())
 
     assert test_diff_analysis.result == ""
     assert test_diff_analysis.id == hash(diff)
@@ -42,17 +44,21 @@ def test_diff_analysis_constructor_produce_a_valid_analysis(diff):
 
 
 def test_diff_analysis_identity_uses_diff_hash(diff):
-    test_diff_analysis_1 = DiffAnalysis(diff=diff)
-    test_diff_analysis_2 = DiffAnalysis(diff=diff)
+    test_diff_analysis_1 = DiffAnalysis(diff=diff, openai_client=MagicMock())
+    test_diff_analysis_2 = DiffAnalysis(diff=diff, openai_client=MagicMock())
     assert test_diff_analysis_1 == test_diff_analysis_2
 
 
 def test_diff_analysis_switch_states_when_executing(diff):
-    test_diff_analysis_1 = DiffAnalysis(diff=diff)
+    test_diff_analysis_1 = DiffAnalysis(diff=diff, openai_client=MagicMock())
     test_diff_analysis_1.exec()
     assert test_diff_analysis_1.state == DiffAnalysis.State.FINISHED
 
 
-# def test_diff_analysis_saves_completions_used_to_produce_results():
-#     test_diff_analysis_1 = DiffAnalysis(diff=diff)
-#     test_diff_analysis_1.exec()
+def test_diff_analysis_saves_completions_used_to_produce_results(diff):
+    test_diff_analysis_1 = DiffAnalysis(diff=diff, openai_client=MagicMock())
+    test_diff_analysis_1.exec()
+    assert len(test_diff_analysis_1.completion_history) > 0
+    assert (
+        test_diff_analysis_1.completion_history[0].state == Completion.State.COMPLETED
+    )
