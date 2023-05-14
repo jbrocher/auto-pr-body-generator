@@ -1,4 +1,5 @@
 from prompt import Prompt
+from completion import Completion
 import inspect
 import logging
 
@@ -23,12 +24,6 @@ class PrBodyGenerator:
         self.openai_client = openai_client
         self.body = diff_analysis
 
-    def _complete_prompt(self, prompt: str) -> str:
-        response = self.openai_client.Completion.create(
-            model="text-davinci-003", prompt=prompt, max_tokens=1024
-        )
-        return response.choices[0].text
-
     def generate_body(self):
         logging.info("Initial body")
         logging.info(self.body)
@@ -43,7 +38,10 @@ class PrBodyGenerator:
             logging.info(self.body)
 
         # Add PR and markdown
-        self.body = self._complete_prompt(str(body_formatting_prompt))
+        body_completion = Completion(body_formatting_prompt, self.openai_client)
+        body_completion.complete()
+        self.body = body_completion.result
+
         logging.info("=== Final Body ===")
         logging.info(self.body)
 
@@ -62,7 +60,9 @@ class PrBodyGenerator:
         complete_prompt = summary_prompt.concat(prompt)
         if complete_prompt.is_valid:
             print(f"Finaly summary at depth {depth}, returning prompt")
-            return Prompt(self._complete_prompt(str(complete_prompt)))
+            summary_completion = Completion(complete_prompt, self.openai_client)
+            summary_completion.complete()
+            return Prompt(summary_completion.result)
 
         split_prompts = Prompt(self.body).split()
         print(f"Too big to summarize, splitted in {len(split_prompts)} prompts")
