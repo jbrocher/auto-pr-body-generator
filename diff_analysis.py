@@ -1,6 +1,7 @@
 from enum import Enum
 from completion import Completion
 from prompt import Prompt
+import uuid
 import inspect
 
 
@@ -21,7 +22,7 @@ class DiffAnalysis:
         FINISHED = "FINISHED"
 
     def __init__(self, diff: str, openai_client):
-        self.id = hash(diff)
+        self.id = f"{hash(diff)}-{uuid.uuid4()}"
         self.openai_client = openai_client
         self.diff = diff
         self.state = self.State.NOT_STARTED

@@ -1,4 +1,5 @@
 import pytest
+import uuid
 from unittest.mock import MagicMock
 from completion import Completion
 from diff_analysis import DiffAnalysis
@@ -34,11 +35,13 @@ index 0000000..a57410c
 """
 
 
-def test_diff_analysis_constructor_produce_a_valid_analysis(diff):
+def test_diff_analysis_constructor_produce_a_valid_analysis(diff, monkeypatch):
+    monkeypatch.setattr(uuid, "uuid4", lambda: "abc-123")
+
     test_diff_analysis = DiffAnalysis(diff=diff, openai_client=MagicMock())
 
     assert test_diff_analysis.result == ""
-    assert test_diff_analysis.id == hash(diff)
+    assert test_diff_analysis.id == f"{hash(diff)}-abc-123"
     assert test_diff_analysis.state == DiffAnalysis.State.NOT_STARTED
     assert test_diff_analysis.completion_history == []
 
@@ -46,6 +49,8 @@ def test_diff_analysis_constructor_produce_a_valid_analysis(diff):
 def test_diff_analysis_identity_uses_diff_hash(diff):
     test_diff_analysis_1 = DiffAnalysis(diff=diff, openai_client=MagicMock())
     test_diff_analysis_2 = DiffAnalysis(diff=diff, openai_client=MagicMock())
+    test_diff_analysis_1.id = "a"
+    test_diff_analysis_2.id = "a"
     assert test_diff_analysis_1 == test_diff_analysis_2
 
 
