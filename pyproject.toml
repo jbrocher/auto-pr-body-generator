@@ -2,7 +2,7 @@
 name = "auto-pr-body-generator"
 version = "0.2.2"
 description = ""
-authors = ["Jean-Baptiste Rocher <jeanb.rocher@gmail.com>"]
+authors = ["Sai Ram<sairammotupalli@gmail.com>"]
 readme = "README.md"
 packages = [{include = "ai_auto_pr_body"}]
 
